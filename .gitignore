@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.env
+*.egg-info/
+*.vscode/
+
+# Jupyter
+.ipynb_checkpoints
+
+# Virtual Environment
+venv/
+.env/
+.venv/
+
+# Streamlit / logs
+*.log
+
+# Model files
+*.keras
+*.hdf5
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Other large files
+/data/
