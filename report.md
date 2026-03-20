@@ -3,11 +3,43 @@
 ## 1. Introduction
 This report documents the development of a deepfake video detection system using a CNN-LSTM architecture. The project aims to accurately classify video sequences as real or fake, leveraging spatial and temporal features from image frames.
 
+
 ## 2. Data Processing
 - **Dataset:** DFDC Faces of the Train Sample (Kaggle)
 - **Organization:** Data split into `train` and `validation` folders, each containing `real` and `fake` subfolders.
 - **Sequence Generation:** Frames are grouped into sequences for model input, ensuring temporal context.
 - **Data Generator:** Custom Keras Sequence class loads and preprocesses batches efficiently.
+- **Parameters:**
+  - Image size: 96x96
+  - Sequence length: 4
+  - Batch size: 8
+
+## 3. Environment & Libraries
+- **Training Environment:** Google Colab
+- **TensorFlow Version:** 2.19.0
+- **Keras Version:** 3.13.2
+- **Python Version:** 3.10
+- **Libraries Used:** TensorFlow, Keras, NumPy, OpenCV, Matplotlib, Seaborn, Scikit-learn
+
+## 4. Model Configuration & Architecture
+- **Model Type:** Keras Sequential (CNN-LSTM)
+- **Input Shape:** (4, 96, 96, 3) (sequence of 4 RGB frames)
+- **Layers:**
+  1. InputLayer
+  2. TimeDistributed Conv2D (32 filters, 3x3, relu)
+  3. TimeDistributed MaxPooling2D (2x2)
+  4. TimeDistributed Conv2D (64 filters, 3x3, relu)
+  5. TimeDistributed MaxPooling2D (2x2)
+  6. TimeDistributed Conv2D (128 filters, 3x3, relu)
+  7. TimeDistributed MaxPooling2D (2x2)
+  8. TimeDistributed Flatten
+  9. LSTM (64 units)
+  10. Dense (64 units, relu)
+  11. Dropout (0.5)
+  12. Dense (1 unit, sigmoid)
+- **Loss Function:** Binary Crossentropy
+- **Optimizer:** Adam (learning rate scheduling)
+- **Metrics:** Accuracy
 
 ## 3. Model Architecture
 - **CNN Layers:** Extract spatial features from each frame.
@@ -30,7 +62,34 @@ This report documents the development of a deepfake video detection system using
 - **ROC Curve & AUC:** Measures model discrimination capability.
 
 
+
 ## 6. Results
+
+### Training & Validation Curve Analysis
+Based on the provided training and validation curves, the model exhibits significant overfitting:
+
+#### Accuracy Analysis
+- **Training Accuracy:** Smooth upward trend, starting at ~81% and plateauing near 97% by epoch 10.
+- **Validation Accuracy:** Improves initially but plateaus early (around epoch 4) at ~83%.
+- **Generalization Gap:** Large gap (~14%) between training and validation accuracy, indicating memorization of training data rather than generalization.
+
+#### Loss Analysis
+- **Training Loss:** Decreases sharply from 0.57 to ~0.11, confirming successful minimization on known data.
+- **Validation Loss:** Fluctuates between 0.53 and 0.63, lacking a clear downward trend. Validation loss remains high while training loss vanishes—a classic sign of overfitting.
+
+#### Findings & Conclusions
+- **Overfitting:** The model is too complex for the available data or the training set lacks sufficient diversity.
+- **Early Convergence:** Model stops learning useful general features after epoch 3 or 4; further training only increases the gap.
+- **Performance Bottleneck:** Validation accuracy plateauing at ~83% suggests the model has reached its limit with the current architecture and dataset.
+
+#### PLanned Next Improvement 
+- **Increase Regularization:** Add or increase Dropout layers or L2 weight decay to penalize complexity.
+- **Data Augmentation:** Apply random rotations, flips, or color jitters to encourage learning robust features.
+- **Early Stopping:** Use a callback to halt training around epoch 4 to prevent memorization.
+
+
+---
+These steps can help improve generalization and reduce overfitting, leading to more reliable performance on unseen data.
 
 ### Training History
 | Epoch | Train Accuracy | Train Loss | Val Accuracy | Val Loss | Learning Rate |
@@ -61,15 +120,9 @@ This report documents the development of a deepfake video detection system using
 - **Streamlit App:** Provides an interactive interface for inference and visualization.
 - **Model Loading:** Supports loading the trained model for real-time predictions.
 
-## 8. Challenges & Solutions
-- **Version Compatibility:** Ensured TensorFlow and NumPy versions matched between training and inference environments.
-- **Data Handling:** Used custom generator for efficient memory usage.
 
-## 9. Conclusion
+## 8. Conclusion
 The Deepfake Video Detection System demonstrates effective use of deep learning for video classification. The combination of CNN and LSTM layers enables robust detection of fake content.
 
-## 10. References
-- DFDC Faces of the Train Sample (Kaggle)
-- TensorFlow, Keras, OpenCV, Streamlit documentation
 
 
