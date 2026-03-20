@@ -5,8 +5,7 @@ This project implements a deepfake video detection system using a CNN-LSTM model
 
 ## Project Structure
 - `app.py`: Streamlit app for model inference and visualization.
-- `model/Deepfake_CNN_LSTM.keras`: Trained model file.
-- `model/Deepfake_CNN_LSTM/`: Model metadata and weights.
+- `model/Deepfake_CNN_LSTM.h5`: Trained model file.
 - `notebooks/model_trainng.ipynb`: Jupyter notebook for data processing, training, and evaluation.
 
 ## Setup
