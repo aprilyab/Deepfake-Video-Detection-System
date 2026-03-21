@@ -17,7 +17,7 @@ def load_my_model():
 
 model = load_my_model()
 
-# Sidebar with instructions and about
+
 st.sidebar.title("About")
 st.sidebar.info(
     "This app uses a CNN-LSTM deep learning model to detect deepfake images. "
@@ -47,16 +47,15 @@ if uploaded_file is not None:
     image = Image.open(uploaded_file)
     st.image(image, caption="Uploaded Image", use_container_width=True)
     input_data = preprocess_image(image)
-    # Add a Predict button
+  
     if st.button("Predict"):
         with st.spinner("Predicting..."):
             prediction = model.predict(input_data)[0][0]
         st.subheader("Result:")
-        if prediction > 0.5:
+        if prediction > 0.7:
             st.error(f"🚨 Fake Image ({prediction:.2%} confidence)")
         else:
             st.success(f"✅ Real Image ({(1 - prediction):.2%} confidence)")
         st.progress(float(prediction) if prediction > 0.5 else 1 - float(prediction))
         st.write(f"Raw model output: {prediction:.4f}")
 
-# Optionally, add more features below (history, feedback, etc.)
