@@ -112,9 +112,16 @@ These steps can help improve generalization and reduce overfitting, leading to m
 - Learning rate was dynamically reduced to optimize convergence.
 - Early stopping and ReduceLROnPlateau callbacks prevented overfitting and improved stability.
 
+
 ### Model Evaluation
 - The model demonstrates robust ability to distinguish real from fake videos.
 - Evaluation metrics (confusion matrix, classification report, ROC curve) confirm high performance and reliability.
+
+#### Final Test Metrics
+- **Accuracy:** 0.8294
+- **Precision:** 0.8092
+- **Recall:** 0.8294
+- **F1 Score:** 0.8110
 
 ## 7. Deployment
 - **Streamlit App:** Provides an interactive interface for inference and visualization.
